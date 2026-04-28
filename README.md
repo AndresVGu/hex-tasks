@@ -1,70 +1,60 @@
 # 📋 Tasks Application - Hexagonal Architecture
-
-Una aplicación de **gestión de tareas** construida con **Spring Boot 3** y **Arquitectura Hexagonal**, implementando buenas prácticas de clean architecture y un diseño completamente desacoplado.
-
-## 📖 Descripción
-
-Esta es una aplicación REST API que permite crear, leer, actualizar y eliminar tareas. Implementa la **Arquitectura Hexagonal** (también conocida como "Puertos y Adaptadores") para lograr un código limpio, testeable e independiente de frameworks externos.
-
-## 🏗️ Arquitectura Hexagonal
-
-La arquitectura hexagonal divide la aplicación en tres capas principales:
-
-### 1. **Domain** (Núcleo - Dominio de Negocio)
+A **task management** application built with **Spring Boot 3** and **Hexagonal Architecture**, implementing clean architecture best practices and a completely decoupled design.
+## 📖 Description
+This is a REST API application that allows you to create, read, update, and delete tasks. It implements **Hexagonal Architecture** (also known as "Ports and Adapters") to achieve clean, testeable code that is independent of external frameworks.
+## 🏗️ Hexagonal Architecture
+Hexagonal architecture divides the application into three main layers:
+### 1. **Domain** (Core - Business Domain)
 ```
 domain/
-├── models/          # Entidades de negocio puras (Task, AdditionalTaskInfo)
-└── ports/           # Interfaces que definen contratos
-    ├── in/          # Casos de uso (puertos de entrada)
-    └── out/         # Adaptadores de persistencia (puertos de salida)
+├── models/          # Pure business entities (Task, AdditionalTaskInfo)
+└── ports/           # Interfaces that define contracts
+    ├── in/          # Use cases (input ports)
+    └── out/         # Persistence adapters (output ports)
 ```
-- **Independiente** de cualquier framework
-- Contiene la **lógica de negocio pura**
-- Define contratos mediante interfaces
-
-### 2. **Application** (Casos de Uso)
+- **Independent** of any framework
+- Contains **pure business logic**
+- Defines contracts through interfaces
+### 2. **Application** (Use Cases)
 ```
 application/
-├── services/        # Orquestadores de casos de uso
-└── usecases/        # Implementaciones de los casos de uso
+├── services/        # Use case orchestrators
+└── usecases/        # Use case implementations
 ```
-- Orquesta la **lógica de negocio**
-- No depende de frameworks externos
-- Implementa los puertos definidos en domain
-
-### 3. **Infrastructure** (Adaptadores)
+- Orchestrates **business logic**
+- Does not depend on external frameworks
+- Implements ports defined in domain
+### 3. **Infrastructure** (Adapters)
 ```
 infrastructure/
-├── adapters/        # Adaptadores para servicios externos
-├── config/          # Configuración de Spring
-├── controllers/     # Controladores REST
-├── entities/        # Entidades JPA
-└── repositories/    # Adaptadores de persistencia
+├── adapters/        # Adapters for external services
+├── config/          # Spring configuration
+├── controllers/     # REST controllers
+├── entities/        # JPA entities
+└── repositories/    # Persistence adapters
 ```
-- Integración con **Spring Boot**
-- Acceso a base de datos
-- Exposición de endpoints REST
-
-## 📁 Estructura del Proyecto
-
+- Integration with **Spring Boot**
+- Database access
+- REST endpoint exposure
+## 📁 Project Structure
 ```
 tasks/
 ├── src/
 │   ├── main/
 │   │   ├── java/com/hexagonal/tasks/
-│   │   │   ├── TasksApplication.java          # Punto de entrada
+│   │   │   ├── TasksApplication.java          # Entry point
 │   │   │   ├── domain/
 │   │   │   │   ├── models/
 │   │   │   │   │   ├── Task.java
 │   │   │   │   │   └── AdditionalTaskInfo.java
 │   │   │   │   └── ports/
-│   │   │   │       ├── in/                    # Casos de uso (puertos entrada)
+│   │   │   │       ├── in/                    # Use cases (input ports)
 │   │   │   │       │   ├── CreateTaskUseCase.java
 │   │   │   │       │   ├── DeleteTaskUseCase.java
 │   │   │   │       │   ├── GetAdditionalTaskInfoUseCase.java
 │   │   │   │       │   ├── RetrieveTaskUseCase.java
 │   │   │   │       │   └── UpdateTaskUseCase.java
-│   │   │   │       └── out/                   # Puertos salida
+│   │   │   │       └── out/                   # Output ports
 │   │   │   │           └── TaskRepositoryPort.java
 │   │   │   ├── application/
 │   │   │   │   ├── services/
@@ -94,170 +84,138 @@ tasks/
 │   └── test/
 │       └── java/com/hexagonal/tasks/
 │           └── TasksApplicationTests.java
-├── pom.xml                                    # Dependencias Maven
+├── pom.xml                                    # Dependencies
 ├── mvnw                                       # Maven Wrapper
 ├── mvnw.cmd                                   # Maven Wrapper (Windows)
-└── README.md                                  # Este archivo
+└── README.md                                  # This file
 ```
-
-## 🚀 Requisitos Previos
-
-- **Java 21** o superior
-- **Maven 3.6+** (o usar mvnw incluido)
+## 🚀 Prerequisites
+- **Java 21** or higher
+- **Maven 3.6+** (or use included mvnw)
 - **MySQL 8.0+**
-- **Git** (opcional)
-
-## 📦 Instalación
-
-### 1. Clonar el repositorio
+- **Git** (optional)
+## 📦 Installation
+### 1. Clone the repository
 ```bash
-git clone https://github.com/tu-usuario/tasks.git
+git clone https://github.com/your-username/tasks.git
 cd tasks
 ```
-
-### 2. Crear la base de datos MySQL
+### 2. Create the MySQL database
 ```sql
 CREATE DATABASE tasks_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
-
-### 3. Configurar la conexión a base de datos
-Editar `src/main/resources/application.properties`:
-
+### 3. Configure the database connection
+Edit `src/main/resources/application.properties`:
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/tasks_db?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
 spring.datasource.username=root
-spring.datasource.password=tu_contraseña
+spring.datasource.password=your_password
 ```
-
-### 4. Compilar y ejecutar
+### 4. Build and run
 ```bash
-# Compilar el proyecto
+# Build the project
 ./mvnw clean package -DskipTests
-
-# Ejecutar la aplicación
+# Run the application
 ./mvnw spring-boot:run
 ```
-
-O ejecutar directamente el JAR:
+Or run the JAR directly:
 ```bash
 java -jar target/tasks-0.0.1-SNAPSHOT.jar
 ```
-
-La aplicación estará disponible en `http://localhost:8080`
-
-## 📡 Endpoints de la API REST
-
+The application will be available at `http://localhost:8080`
+## 📡 REST API Endpoints
 ### Base URL: `/api/tasks`
-
-| Método | Endpoint | Descripción |
+| Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/api/tasks` | Crear una nueva tarea |
-| `GET` | `/api/tasks` | Obtener todas las tareas |
-| `GET` | `/api/tasks/{id}` | Obtener una tarea por ID |
-| `PUT` | `/api/tasks/{id}` | Actualizar una tarea |
-| `DELETE` | `/api/tasks/{id}` | Eliminar una tarea |
-| `GET` | `/api/tasks/{id}/additionalInfo` | Obtener información adicional de una tarea |
-
-### Ejemplos de Uso
-
-#### 1. Crear una tarea
+| `POST` | `/api/tasks` | Create a new task |
+| `GET` | `/api/tasks` | Get all tasks |
+| `GET` | `/api/tasks/{id}` | Get a task by ID |
+| `PUT` | `/api/tasks/{id}` | Update a task |
+| `DELETE` | `/api/tasks/{id}` | Delete a task |
+| `GET` | `/api/tasks/{id}/additionalInfo` | Get additional task information |
+### Usage Examples
+#### 1. Create a task
 ```bash
 curl -X POST http://localhost:8080/api/tasks \
   -H "Content-Type: application/json" \
   -d '{
-    "title": "Lista de tareas",
-    "description": "Crear aplicación usando arquitectura hexagonal",
+    "title": "Task List",
+    "description": "Create an application using hexagonal architecture",
     "completed": false
   }'
 ```
-
-**Respuesta:**
+**Response:**
 ```json
 {
   "id": 1,
-  "title": "Lista de tareas",
-  "description": "Crear aplicación usando arquitectura hexagonal",
+  "title": "Task List",
+  "description": "Create an application using hexagonal architecture",
   "creationDate": "2026-04-27T14:30:45.123456",
   "deletedAt": null,
   "completed": false
 }
 ```
-
-#### 2. Obtener todas las tareas
+#### 2. Get all tasks
 ```bash
 curl -X GET http://localhost:8080/api/tasks
 ```
-
-#### 3. Obtener una tarea por ID
+#### 3. Get a task by ID
 ```bash
 curl -X GET http://localhost:8080/api/tasks/1
 ```
-
-#### 4. Actualizar una tarea
+#### 4. Update a task
 ```bash
 curl -X PUT http://localhost:8080/api/tasks/1 \
   -H "Content-Type: application/json" \
   -d '{
-    "title": "Lista de tareas actualizada",
-    "description": "Descripción modificada",
+    "title": "Updated Task List",
+    "description": "Modified description",
     "completed": true
   }'
 ```
-
-#### 5. Eliminar una tarea
+#### 5. Delete a task
 ```bash
 curl -X DELETE http://localhost:8080/api/tasks/1
 ```
-
-#### 6. Obtener información adicional
+#### 6. Get additional information
 ```bash
 curl -X GET http://localhost:8080/api/tasks/1/additionalInfo
 ```
-
-## 🗄️ Estructura de la Base de Datos
-
-### Tabla: `task_entity`
-
-| Campo | Tipo | Descripción |
+## 🗄️ Database Structure
+### Table: `task_entity`
+| Field | Type | Description |
 |-------|------|-------------|
-| `id` | BIGINT | Identificador único (PK, AUTO_INCREMENT) |
-| `title` | VARCHAR(255) | Título de la tarea |
-| `description` | LONGTEXT | Descripción detallada |
-| `creation_date` | DATETIME | Fecha de creación (se asigna automáticamente) |
-| `deleted_at` | DATETIME | Fecha de eliminación (soft delete) |
-| `completed` | BOOLEAN | Estado de completitud |
-
-## 🛠️ Tecnologías Utilizadas
-
-- **Java 21** - Lenguaje de programación
-- **Spring Boot 3.5.14** - Framework web
-- **Spring Data JPA** - Persistencia de datos
+| `id` | BIGINT | Unique identifier (PK, AUTO_INCREMENT) |
+| `title` | VARCHAR(255) | Task title |
+| `description` | LONGTEXT | Detailed description |
+| `creation_date` | DATETIME | Creation date (assigned automatically) |
+| `deleted_at` | DATETIME | Deletion date (soft delete) |
+| `completed` | BOOLEAN | Completion status |
+## 🛠️ Technologies Used
+- **Java 21** - Programming language
+- **Spring Boot 3.5.14** - Web framework
+- **Spring Data JPA** - Data persistence
 - **Hibernate** - ORM
-- **MySQL 8** - Base de datos relacional
-- **Maven** - Gestor de dependencias y construcción
-- **Jakarta Persistence** - Especificación de persistencia
-
-## 📋 Dependencias Principales
-
+- **MySQL 8** - Relational database
+- **Maven** - Dependency manager and build tool
+- **Jakarta Persistence** - Persistence specification
+## 📋 Main Dependencies
 ```xml
 <!-- Spring Boot Web Starter -->
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-web</artifactId>
 </dependency>
-
 <!-- Spring Data JPA -->
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-data-jpa</artifactId>
 </dependency>
-
 <!-- MySQL Connector -->
 <dependency>
     <groupId>com.mysql</groupId>
     <artifactId>mysql-connector-j</artifactId>
 </dependency>
-
 <!-- Spring Boot Test -->
 <dependency>
     <groupId>org.springframework.boot</groupId>
@@ -265,81 +223,36 @@ curl -X GET http://localhost:8080/api/tasks/1/additionalInfo
     <scope>test</scope>
 </dependency>
 ```
-
-## 💡 Características Implementadas
-
-✅ **CRUD Completo** - Crear, leer, actualizar y eliminar tareas
-
-✅ **Arquitectura Hexagonal** - Separación clara de responsabilidades
-
-✅ **Casos de Uso Independientes** - Cada caso de uso es una clase separada
-
-✅ **Puertos y Adaptadores** - Desacoplamiento de la infraestructura
-
-✅ **Persistencia con JPA/Hibernate** - Acceso a base de datos
-
-✅ **API REST** - Endpoints RESTful
-
-✅ **Inyección de Dependencias** - Configuración automática mediante Spring
-
-✅ **Validación de Nulabilidad** - Control de creationDate automático
-
-## 🔧 Configuración Adicional
-
-### Habilitar logs de SQL (ya incluido)
+## 💡 Implemented Features
+✅ **Complete CRUD** - Create, read, update, and delete tasks
+✅ **Hexagonal Architecture** - Clear separation of concerns
+✅ **Independent Use Cases** - Each use case is a separate class
+✅ **Ports and Adapters** - Infrastructure decoupling
+✅ **JPA/Hibernate Persistence** - Database access
+✅ **REST API** - RESTful endpoints
+✅ **Dependency Injection** - Automatic configuration via Spring
+✅ **Null Handling Validation** - Automatic creationDate control
+## 🔧 Additional Configuration
+### Enable SQL logs (already included)
 ```properties
 spring.jpa.show-sql=true
 logging.level.org.hibernate.SQL=DEBUG
 ```
-
-### DDL Auto (actualización automática de esquema)
+### DDL Auto (automatic schema updates)
 ```properties
 spring.jpa.hibernate.ddl-auto=update
 ```
-
-Opciones disponibles: `create-drop`, `create`, `update`, `validate`, `none`
-
-## 📝 Notas Importantes
-
-- **CreationDate automático**: Al crear una tarea sin especificar `creationDate`, se asigna automáticamente la fecha y hora actual del servidor.
-
-- **Soft Delete**: El campo `deletedAt` permite implementar borrado lógico (la tarea no se elimina físicamente).
-
-- **Desacoplamiento**: El dominio no tiene ninguna dependencia con Spring o JPA, permitiendo testear la lógica de negocio sin infraestructura.
-
+Available options: `create-drop`, `create`, `update`, `validate`, `none`
+## 📝 Important Notes
+- **Automatic CreationDate**: When creating a task without specifying `creationDate`, it is automatically assigned the current server date and time.
+- **Soft Delete**: The `deletedAt` field allows implementing logical deletion (the task is not physically deleted).
+- **Decoupling**: The domain has no dependencies on Spring or JPA, allowing you to test business logic without infrastructure.
 ## 🧪 Testing
-
 ```bash
-# Ejecutar todas las pruebas
+# Run all tests
 ./mvnw test
-
-# Ejecutar con cobertura
+# Run with coverage
 ./mvnw test -Drepository=true
 ```
 
-## 🤝 Contribuciones
-
-Las contribuciones son bienvenidas.
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT - ver el archivo LICENSE para más detalles.
-
-## 👨‍💻 Autor
-
-**Andrés** - [GitHub](https://github.com/tu-usuario)
-
-## 📞 Contacto
-
-Para preguntas o sugerencias, por favor abre un [issue](https://github.com/tu-usuario/tasks/issues) en el repositorio.
-
----
-
-**Última actualización:** Abril 2026
-
+**Last updated:** April 2026
