@@ -7,7 +7,7 @@ import com.hexagonal.tasks.domain.ports.in.*;
 import java.util.List;
 import java.util.Optional;
 
-public class taskService implements CreateTaskUseCase, DeleteTaskUseCase, RetrieveTaskUseCase,
+public class TaskService implements CreateTaskUseCase, DeleteTaskUseCase, RetrieveTaskUseCase,
         UpdateTaskUseCase, GetAdditionalTaskInfoUseCase {
 
     private final CreateTaskUseCase createTaskUseCase;
@@ -16,7 +16,7 @@ public class taskService implements CreateTaskUseCase, DeleteTaskUseCase, Retrie
     private final DeleteTaskUseCase deleteTaskUseCase;
     private final  GetAdditionalTaskInfoUseCase getAdditionalTaskInfoUseCase;
 
-    public taskService(CreateTaskUseCase createTaskUseCase, RetrieveTaskUseCase retrieveTaskUseCase,
+    public TaskService(CreateTaskUseCase createTaskUseCase, RetrieveTaskUseCase retrieveTaskUseCase,
                        UpdateTaskUseCase updateTaskUseCase, DeleteTaskUseCase deleteTaskUseCase,
                        GetAdditionalTaskInfoUseCase getAdditionalTaskInfoUseCase) {
         this.createTaskUseCase = createTaskUseCase;
@@ -27,8 +27,8 @@ public class taskService implements CreateTaskUseCase, DeleteTaskUseCase, Retrie
     }
 
     @Override
-    public Task cerateTask(Task task) {
-        return createTaskUseCase.cerateTask(task);
+    public Task createTask(Task task) {
+        return createTaskUseCase.createTask(task);
     }
 
     @Override
@@ -55,4 +55,5 @@ public class taskService implements CreateTaskUseCase, DeleteTaskUseCase, Retrie
     public Optional<Task> updateTask(Long id, Task updateTask) {
         return updateTaskUseCase.updateTask(id, updateTask);
     }
+
 }
